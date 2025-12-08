@@ -18,7 +18,7 @@ export default function Navbar() {
 
         <div>
           <h1 className="text-xl font-semibold text-blue-300 tracking-wide">
-            RANGER BATTLE SIMULATOR
+            SamuraX: The Ranger Ops Simulation
           </h1>
           {/* <div className="text-xs text-blue-300/50 tracking-wider">
             Samurai Tech Command Interface
