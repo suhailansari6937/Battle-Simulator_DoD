@@ -213,23 +213,23 @@ Frontend starts at: **http://localhost:5173**
 
 ### 🟡 Dashboard
 
-![Dashboard](https://via.placeholder.com/800x450/f39c12/fff?text=Dashboard+Analytics)
+![Dashboard](src/assets/sDash.png)
 
 ### 🔵 Ranger Selection
 
-![Ranger Selection](https://via.placeholder.com/800x450/3498db/fff?text=Ranger+Selection)
+![Ranger Selection](src/assets/sRangerSelect.png)
 
 ### 🟢 Setup Page
 
-![Setup Page](https://via.placeholder.com/800x450/2ecc71/fff?text=Troop+Deployment)
+![Setup Page](src/assets/.png)
 
 ### 🔴 Battle Simulation
 
-![Battle Simulation](https://via.placeholder.com/800x450/e74c3c/fff?text=Live+Battle+Simulation)
+![Battle Simulation](src/assets/sBattle.png)
 
 ### 🟣 Results
 
-![Results](https://via.placeholder.com/800x450/9b59b6/fff?text=Battle+Results)
+![Results](src/assets/sResult.png)
 
 ---
 
