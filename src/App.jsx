@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";

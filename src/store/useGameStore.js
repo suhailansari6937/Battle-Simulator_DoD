@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+const API_BASE = "http://localhost:4000"; // backend URL
+
 const unitDefs = {
   soldier: { hp: 100, atk: 20, range: 1, symbol: "S", color: "#22c55e" },
   archer: { hp: 60, atk: 30, range: 4, symbol: "A", color: "#f59e0b" },
@@ -9,7 +11,15 @@ const unitDefs = {
 const useGameStore = create((set, get) => ({
   gridSize: 10,
   unitDefs,
-  
+
+  // NEW: store which ranger the player chose
+  playerRanger: null,
+
+  setPlayerRanger(id) {
+    set(() => ({ playerRanger: id }));
+  },
+
+  // GAME STATE
   player: {
     logic: { soldier: "aggressive", archer: "ranged", tank: "tank-aggr" },
     unplaced: [],
@@ -24,7 +34,13 @@ const useGameStore = create((set, get) => ({
     result: null
   },
 
-  // UPDATE LOGIC
+  // NEW: results fetched from backend (history)
+  resultsHistory: [],
+
+
+  // ========================
+  // LOGIC PRESETS
+  // ========================
   setLogic(type, logic) {
     set((state) => ({
       player: {
@@ -34,7 +50,10 @@ const useGameStore = create((set, get) => ({
     }));
   },
 
-  // ADD UNPLACED UNIT
+
+  // ========================
+  // UNIT MANAGEMENT
+  // ========================
   addUnplaced(type) {
     const id = type + "-" + Date.now();
     set((state) => ({
@@ -45,7 +64,6 @@ const useGameStore = create((set, get) => ({
     }));
   },
 
-  // REMOVE UNPLACED UNIT
   removeUnplaced(id) {
     set((state) => ({
       player: {
@@ -55,10 +73,9 @@ const useGameStore = create((set, get) => ({
     }));
   },
 
-  // PLACE UNIT ON GRID
   placeUnit(id, x, y) {
     const { unitDefs } = get();
-    
+
     set((state) => {
       const unplaced = state.player.unplaced;
       const idx = unplaced.findIndex((u) => u.id === id);
@@ -87,7 +104,10 @@ const useGameStore = create((set, get) => ({
     });
   },
 
-  // AUTO PLACE BOT UNITS
+
+  // ========================
+  // BOT AUTO PLACEMENT
+  // ========================
   autoPlaceBot() {
     const { unitDefs } = get();
     const count = get().player.units.length;
@@ -122,36 +142,79 @@ const useGameStore = create((set, get) => ({
     }));
   },
 
-  // SAVE RESULT
-  saveResult(result) {
-    set(() => ({
-      sim: { result }
-    }));
+
+  // ============================================================
+  // SAVE RESULT (LOCAL + SEND TO BACKEND)
+  // ============================================================
+ async saveResult(result) {
+  const playerRanger = get().playerRanger;
+
+  // store locally for ResultsPage
+  set(() => ({
+    sim: { result }
+  }));
+
+  // send to backend
+  try {
+    await fetch(`${API_BASE}/api/results/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        winner: result.winner,
+        units: result.units,
+        selectedRanger: playerRanger,
+        createdAt: Date.now()
+      })
+    });
+
+    console.log("✅ Result sent to backend");
+  } catch (err) {
+    console.log("⚠️ Failed to save result to backend:", err);
+  }
+},
+
+
+  // ============================================================
+  // FETCH RESULT HISTORY FROM BACKEND
+  // ============================================================
+  async fetchResults() {
+    try {
+      const res = await fetch(`${API_BASE}/api/results`);
+      const data = await res.json();
+
+      if (data.ok) {
+        set(() => ({ resultsHistory: data.results }));
+      }
+    } catch (err) {
+      console.log("⚠️ Error fetching results:", err);
+    }
   },
 
-  // ⭐ RESET ONLY PLAYER GRID PLACEMENT (requested)
+
+  // ========================
+  // RESET FUNCTIONS
+  // ========================
   resetPlacement() {
     set((state) => ({
       player: {
         ...state.player,
-        units: []  // removes ONLY placed units
+        units: []
       },
-      bot: {
-        units: [] // clear bot as well
-      }
+      bot: { units: [] }
     }));
   },
 
-  // FULL RESET (already existed)
   resetAll() {
     set(() => ({
+      playerRanger: null,
       player: {
         logic: { soldier: "aggressive", archer: "ranged", tank: "tank-aggr" },
         unplaced: [],
         units: []
       },
       bot: { units: [] },
-      sim: { result: null }
+      sim: { result: null },
+      resultsHistory: []
     }));
   }
 }));

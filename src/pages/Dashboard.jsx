@@ -1,70 +1,141 @@
-
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import bgImage from "../../public/rangers/samurai-bg.jpg";
-
+// src/pages/Dashboard.jsx
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import useGameStore from "../store/useGameStore";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
+  const { fetchResults, resultsHistory } = useGameStore();
+
+  useEffect(() => {
+    fetchResults();
+  }, []);
+
+  const rangers = [
+    { id: "samurai-red", name: "Samurai Red" },
+    { id: "samurai-blue", name: "Samurai Blue" },
+    { id: "samurai-pink", name: "Samurai Pink" },
+    { id: "black", name: "Black Ranger" },
+    { id: "green", name: "Green Ranger" },
+    { id: "yellow", name: "Yellow Ranger" }
+  ];
+
+  const stats = {};
+  rangers.forEach(r => {
+    stats[r.id] = { wins: 0, losses: 0, draws: 0, total: 0 };
+  });
+
+  resultsHistory.forEach(result => {
+    const r = result.selectedRanger;
+    if (!stats[r]) return;
+    stats[r].total++;
+    if (result.winner === "player") stats[r].wins++;
+    else if (result.winner === "bot") stats[r].losses++;
+    else stats[r].draws++;
+  });
 
   return (
-    <div className="relative min-h-[72vh] flex items-center justify-center">
-
-      {/* Background Samurai Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgImage})` }}
-
-      />
-
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" />
-
-      {/* MAIN CONTENT */}
-      <div className="relative z-10 flex flex-col items-center text-center gap-6 px-6 max-w-3xl">
-
-        {/* Title Panel */}
-        <div className="bg-black/50 border border-yellow-500/30 rounded-xl px-8 py-6 shadow-2xl">
-          <h1 className="text-5xl font-extrabold tracking-wide text-yellow-300 drop-shadow-lg">
+    <div
+      className="min-h-screen w-full bg-cover bg-center bg-no-repeat pb-20"
+      style={{
+        backgroundImage: `
+           linear-gradient(180deg, rgba(10,10,10,0.9), rgba(5,5,5,0.95)),
+          url('public/rangers/bg.jpg')
+        `
+      }}
+    >
+      {/* ================= HERO BOX ================== */}
+      <div className="flex justify-center pt-20">
+        <div className="bg-black/60 border border-yellow-500/40 backdrop-blur-lg px-10 py-8 rounded-xl shadow-xl text-center max-w-xl">
+          <h1 className="text-4xl font-extrabold text-yellow-300 drop-shadow mb-2">
             Ranger Operations Console
           </h1>
-          <p className="mt-2 text-gray-300 text-sm">
+          <p className="text-gray-300 mb-6 tracking-wide">
             Power Rangers Division • Tactical Combat Simulator
           </p>
+
+          <Link
+            to="/rangers"
+            className="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-bold rounded-lg shadow-lg transition"
+          >
+            START GAME
+          </Link>
         </div>
+      </div>
 
-        {/* Subtitle */}
-        <p className="text-gray-300/80 text-sm max-w-xl">
-          Prepare your Samurai. Choose your Ranger. Enter the battlefield 🔥.
-        </p>
+      {/* ================= PERFORMANCE STATS ================== */}
+      <h2 className="text-4xl text-yellow-300 font-bold text-center mt-20 mb-10 drop-shadow">
+        Ranger Performance (All Rangers)
+      </h2>
 
-        {/* Start Game Button */}
-        <button
-          onClick={() => navigate("/rangers")}
-          className="
-            px-8 py-3 rounded-md 
-            bg-gradient-to-br from-yellow-400 to-yellow-600 
-            text-black font-bold text-lg
-            shadow-xl shadow-yellow-600/40
-            hover:scale-105 active:scale-95 transition
-          "
-        >
-          START GAME
-        </button>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6">
+        {rangers.map(r => (
+          <div
+            key={r.id}
+            className="
+              bg-black/60 border border-white/10 rounded-xl p-6 backdrop-blur-md shadow-xl
+              hover:shadow-yellow-500/20 hover:-translate-y-1 transition
+            "
+          >
+            <h3 className="text-xl font-bold text-yellow-300 mb-3">{r.name}</h3>
 
-        {/* Quick Setup Option */}
-        <button
-          onClick={() => navigate("/setup")}
-          className="
-            px-6 py-2 rounded-md
-            bg-black/40 border border-yellow-500/30
-            text-gray-200 text-sm
-            hover:bg-black/60 transition
-          "
-        >
-          Quick Setup
-        </button>
+            <div className="grid grid-cols-2 gap-y-1 text-sm text-gray-200">
+              <span>Wins:</span>
+              <span className="text-green-400">{stats[r.id].wins}</span>
 
+              <span>Losses:</span>
+              <span className="text-red-400">{stats[r.id].losses}</span>
+
+              <span>Draws:</span>
+              <span className="text-yellow-300">{stats[r.id].draws}</span>
+
+              <span>Total Battles:</span>
+              <span className="text-blue-400">{stats[r.id].total}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ================= PREVIOUS BATTLES ================== */}
+      <h2 className="text-3xl text-yellow-300 font-bold text-center underline underline-offset-4 mt-20">
+        Previous Battles
+      </h2>
+
+      <div className="max-w-3xl mx-auto space-y-4 px-6 mt-6">
+        {resultsHistory.length === 0 && (
+          <p className="text-gray-300 text-center">No battles recorded yet.</p>
+        )}
+
+        {resultsHistory.map((result, idx) => (
+          <div
+            key={idx}
+            className="
+              flex items-center gap-6 bg-black/40 border border-white/10
+              p-4 rounded-xl backdrop-blur-md shadow-md
+              hover:-translate-y-1 hover:shadow-yellow-400/20 transition
+            "
+          >
+            <div
+              className={`
+                px-3 py-1 rounded-lg font-bold text-sm
+                ${
+                  result.winner === "player"
+                    ? "bg-green-700/40 text-green-300"
+                    : "bg-red-700/40 text-red-300"
+                }
+              `}
+            >
+              {result.winner === "player" ? "Player Victory" : "Bot Victory"}
+            </div>
+
+            <div className="text-gray-300 text-sm">
+              {new Date(result.createdAt).toLocaleString()}
+            </div>
+
+            <div className="ml-auto text-blue-300 text-sm font-semibold">
+              Ranger: {result.selectedRanger}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
