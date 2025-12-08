@@ -1,6 +1,7 @@
 // src/pages/RangerSelect.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useGameStore from "../store/useGameStore";
 
 const RANGERS = [
   { id: "samurai-red", name: "Samurai Red", color: "from-red-600 to-yellow-500" },
@@ -13,6 +14,12 @@ const RANGERS = [
 
 export default function RangerSelect() {
   const navigate = useNavigate();
+  const setPlayerRanger = useGameStore((s) => s.setPlayerRanger); // 👈 NEW
+
+  function chooseRanger(rangerId) {
+    setPlayerRanger(rangerId);   // Save selected ranger into Zustand
+    navigate(`/story/${rangerId}`);
+  }
 
   return (
     <div className="space-y-8">
@@ -28,7 +35,7 @@ export default function RangerSelect() {
         {RANGERS.map((r) => (
           <button
             key={r.id}
-            onClick={() => navigate(`/story/${r.id}`)}
+            onClick={() => chooseRanger(r.id)} // 👈 UPDATED
             className="
               rounded-xl p-4
               bg-gradient-to-b from-black/60 to-gray-900
@@ -40,13 +47,12 @@ export default function RangerSelect() {
           >
             {/* Ranger Image */}
             <div className="relative w-full h-56 flex items-center justify-center overflow-hidden rounded-lg">
-             <img
+              <img
                 src={`/rangers/${r.id}.webp`}
                 onError={(e) => { e.currentTarget.src = `/rangers/${r.id}.jpg`; }}
                 alt={r.name}
-                 className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(255,215,0,0.4)]"
-            />
-
+                className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(255,215,0,0.4)]"
+              />
             </div>
 
             {/* Ranger Name */}

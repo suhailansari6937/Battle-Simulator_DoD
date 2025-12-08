@@ -79,3 +79,4 @@ export function moveTowards(unit, target, gridSize, allUnits) {
   }
   // can't move → frozen until enemy moves around
 }
+
