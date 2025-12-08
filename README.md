@@ -1,164 +1,155 @@
-🗡️ SamuraX: The Ranger Ops Simulation
+# 🗡️ SamuraX: The Ranger Ops Simulation
 
-A futuristic, grid-based tactical combat simulator where Rangers command autonomous units in AI-driven battles. Built using React, Zustand, TailwindCSS, Node.js, Express, MongoDB, SamuraX emphasizes tactical depth, minimal UI, and persistent battle history.
+A futuristic, grid-based tactical combat simulator where Rangers command autonomous units in strategic, AI-driven battles. Built with React, Zustand, TailwindCSS, Node.js, Express, and MongoDB, SamuraX focuses on tactical depth, minimal UI, and persistent battle history.
 
-📌 Problem Statement (PS7)
 
-Problem Code: PS7 – AI-Powered Tactical Grid Battle Simulator
+---
 
-Design and develop an interactive tactical battle simulator where players deploy units on a grid, and an autonomous AI engine resolves the battle. The system must visually simulate combat, store results, and provide analytical insights.
+## 📌 Problem Statement (PS7)
 
-SamuraX implements this end-to-end, including:
+**Problem Code:** PS7 – AI-Powered Tactical Grid Battle Simulator
 
-A custom simulation engine
+Design and develop an interactive tactical battle simulator where players deploy units on a grid, and an autonomous AI engine resolves battles. The system must visually simulate combat, store battle results, and provide analytical insights.
 
-A responsive and minimalistic UI
+SamuraX implements this end-to-end using a combination of a custom simulation engine, frontend UI, and a minimal backend.
 
-Backend with persistent battle history
+---
 
-🧭 Project Overview
+## 🧭 Project Overview
 
 SamuraX is a full-stack tactical simulator where:
 
-Players select a Ranger
+1. The player selects a **Ranger**
+2. Deploys **units** on a battle grid
+3. Each unit follows **AI-based movement & attack logic**
+4. Simulation runs **autonomously**
+5. Results are **recorded and displayed** on a dashboard
+6. Players can track **ranger-specific win/loss statistics** and revisit previous battles
 
-Deploy units on a battle grid
+---
 
-Units follow AI-based movement & attack logic
+## ⚔️ Features Implemented
 
-The simulation runs autonomously
+### 🎮 Gameplay Features
 
-Results are recorded and displayed on a dashboard
+- ✅ Ranger selection system
+- ✅ Ranger intro story animations
+- ✅ Drag-and-drop troop deployment
+- ✅ 10x10 battle grid
+- ✅ Three unit types (Soldier, Archer, Tank)
+- ✅ Adjustable logic presets (Aggressive / Defensive / Ranged / Skirmish)
 
-Players can track ranger-specific win/loss statistics and revisit battle history.
+### 🧠 Simulation Engine
 
-⚔️ Features Implemented
-🎮 Gameplay Features
+- ✅ Snapshot-based battle ticks
+- ✅ Nearest-enemy detection
+- ✅ Movement via Manhattan/Chebyshev distance
+- ✅ Attack range checks
+- ✅ Damage, HP, unit death handling
+- ✅ Automatic winner resolution
 
-Ranger selection system
+### 🔗 Backend Integration
 
-Intro story animations
+- ✅ Minimal Express.js backend
+- ✅ MongoDB database storage
+- ✅ Endpoints to save & fetch battle results
+- ✅ Dashboard analytics powered by backend data
 
-Drag-and-drop troop deployment
+### 📊 Dashboard Analytics
 
-10×10 tactical battle grid
+- ✅ Ranger-wise performance stats
+- ✅ Total wins, losses, draws
+- ✅ Previous battle history with timestamps
+- ✅ Clean, minimal UI with blur/glass effects
 
-Three unit types: Soldier, Archer, Tank
+---
 
-Adjustable logic presets: Aggressive / Defensive / Ranged / Skirmish
+## 🛠️ Tech Stack Used
 
-🧠 Simulation Engine
+### Frontend
 
-Snapshot-based battle ticks
+- **React** - UI library
+- **Zustand** - State management
+- **TailwindCSS** - Styling
+- **React Router** - Navigation
+- **Custom Simulation Engine** - JavaScript-based battle logic
 
-Nearest-enemy detection
+### Backend
 
-Manhattan & Chebyshev movement
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MongoDB / Mongoose** - Database
 
-Attack range validation
+### Tools
 
-Damage, HP, and death handling
+- **Vercel** - Frontend deployment
+- **Render.com** - Backend hosting
+- **MongoDB Atlas** - Cloud database
 
-Automatic winner resolution
+---
 
-🔗 Backend Integration
+## 🧱 System Architecture / High-Level Design
 
-Minimal Express.js backend
+```
+                    ┌────────────────────────┐
+                    │       Frontend         │
+                    │   React + Zustand      │
+                    │   - UI/UX              │
+                    │   - Simulation Engine  │
+                    │   - State Management   │
+                    │   - Dashboard Stats    │
+                    └───────────┬────────────┘
+                                │ (REST API)
+                                ▼
+                    ┌────────────────────────┐
+                    │        Backend         │
+                    │   Node.js + Express    │
+                    │  /api/results (GET/POST)│
+                    └───────────┬────────────┘
+                                │
+                                ▼
+                    ┌────────────────────────┐
+                    │       MongoDB          │
+                    │ Battle results stored  │
+                    │ Persistent history     │
+                    └────────────────────────┘
+```
 
-Battle results stored in MongoDB
+---
 
-Endpoints to save & fetch results
+## 📡 API Documentation
 
-Dashboard analytics powered by backend data
-
-📊 Dashboard Analytics
-
-Ranger-wise performance stats
-
-Wins, losses, draws
-
-Historical battle logs with timestamps
-
-Minimal UI with glass/blur effects
-
-🛠️ Tech Stack
-Frontend
-
-React
-
-Zustand
-
-TailwindCSS
-
-React Router
-
-Custom JS simulation engine
-
-Backend
-
-Node.js
-
-Express
-
-MongoDB / Mongoose
-
-Tools
-
-Vercel (frontend deployment)
-
-Render.com (backend hosting)
-
-MongoDB Atlas
-
-🧱 System Architecture
-        ┌────────────────────────┐
-        │       Frontend         │
-        │   React + Zustand      │
-        │   - UI/UX              │
-        │   - Simulation Engine  │
-        │   - State Management   │
-        │   - Dashboard Stats    │
-        └───────────┬────────────┘
-                    │ (REST API)
-                    ▼
-        ┌────────────────────────┐
-        │        Backend         │
-        │   Node.js + Express    │
-        │  /api/results GET/POST │
-        └───────────┬────────────┘
-                    │
-                    ▼
-        ┌────────────────────────┐
-        │        MongoDB         │
-        │  Persistent battle     │
-        │      history           │
-        └────────────────────────┘
-
-📡 API Documentation
-POST /api/results
+### `POST /api/results`
 
 Save the result of one completed battle.
 
-Request Body:
+**Request Body:**
 
+```json
 {
   "winner": "Player",
   "selectedRanger": "samurai-blue",
   "units": [...],
   "createdAt": "timestamp"
 }
+```
 
+**Response:**
 
-Response:
+```json
+{
+  "ok": true,
+  "result": { ... }
+}
+```
 
-{ "ok": true, "result": { ... } }
-
-GET /api/results
+### `GET /api/results`
 
 Fetch all historical battle results.
 
-Response:
+**Response:**
 
+```json
 {
   "ok": true,
   "results": [
@@ -170,91 +161,147 @@ Response:
     }
   ]
 }
+```
 
-🧪 How to Run Locally
-1️⃣ Clone Repo
-git clone https://github.com/YourUser/SamuraX.git
+---
+
+## 🧪 How to Run Locally
+
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/<your-username>/SamuraX.git
 cd SamuraX
+```
 
-2️⃣ Setup Backend
+### 2️⃣ Setup Backend
+
+```bash
 cd backend
 npm install
+```
 
+Create `.env` file:
 
-Create .env file:
-
+```env
 MONGO_URI=mongodb+srv://...
 PORT=4000
-
+```
 
 Run backend:
 
+```bash
 npm run dev
+```
 
-3️⃣ Setup Frontend
+### 3️⃣ Setup Frontend
+
+```bash
 cd ..
 npm install
 npm run dev
+```
+
+Frontend starts at: **http://localhost:5173**
+
+---
 
 
-Frontend starts at:
-👉 http://localhost:5173
 
-🖼️ Screenshots / GIFs
+## 🖼️ Screenshots / GIFs
 
-(Replace placeholders with real screenshots)
 
-🟡 Dashboard
+### 🟡 Dashboard
 
-🔵 Ranger Selection
+![Dashboard](https://via.placeholder.com/800x450/f39c12/fff?text=Dashboard+Analytics)
 
-🟢 Setup Page
+### 🔵 Ranger Selection
 
-🔴 Battle Simulation
+![Ranger Selection](https://via.placeholder.com/800x450/3498db/fff?text=Ranger+Selection)
 
-🟣 Results Page
+### 🟢 Setup Page
 
-🧷 Error Handling & Reliability
+![Setup Page](https://via.placeholder.com/800x450/2ecc71/fff?text=Troop+Deployment)
 
-Backend wrapped in try/catch
+### 🔴 Battle Simulation
 
-Simulation engine prevents invalid moves
+![Battle Simulation](https://via.placeholder.com/800x450/e74c3c/fff?text=Live+Battle+Simulation)
 
-Start button disabled until 4 units placed
+### 🟣 Results
 
-Backend rejects malformed payloads
+![Results](https://via.placeholder.com/800x450/9b59b6/fff?text=Battle+Results)
 
-Local fallback saving when backend fails
+---
 
-🤖 AI / ML Integration
+## 🧷 Error Handling & Reliability Considerations
 
-No ML models used.
-AI logic is rule-based, using:
+- ✅ Backend uses try/catch for all DB operations
+- ✅ Simulation engine prevents invalid movement positions
+- ✅ Disabled start button until 4 units are placed
+- ✅ Backend rejects invalid payloads
+- ✅ Fetch failures do not break gameplay (results saved locally as fallback)
 
-Nearest enemy detection
+---
 
-Distance-based decision making
+## 🤖 AI / ML Integration Details
 
-Simple deterministic movement
+> **Note:** No ML model used. AI logic is rule-based, not machine learning based.
 
-🧑‍🤝‍🧑 Team Members & Roles
-Member	Role	Responsibilities
-Your Name	Developer	Frontend UI, Simulation Engine, Backend Integration, Deployment
+The bot uses:
 
-(Add more members if needed)
+- Nearest enemy detection
+- Range-based decision making
+- Simple deterministic movement
 
-🔮 Future Improvements
+---
 
-Global leaderboards
+## 🧑‍🤝‍🧑 Team Members & Responsibilities
 
-Player accounts
+| Member    | Role      | Responsibilities                                                |
+| --------- | --------- | --------------------------------------------------------------- |
+| Md Suhail | Developer | Frontend UI, Backend Integration, Dashboard  |
+| Krishna Kumar | Developer | Frontend UI, Simulation Engine, Backend Integration|
+| Aditi Gupta | Developer |  Setup Troops |
+| Sushobit | Developer | Shows Result |
 
-Ranger skill abilities
 
-New unit types
 
-Multiplayer arenas
 
-Match replay system
+## 🔮 Future Improvements
 
-Difficulty levels (Easy / Medium / Hard)
+- [ ] Leaderboards
+- [ ] Player accounts
+- [ ] Skill-based Ranger abilities
+- [ ] New unit types
+- [ ] Multiplayer battle arenas
+- [ ] Match replay system
+- [ ] Difficulty levels (Easy / Medium / Hard)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Problem Statement provided by **PS7**
+- Built as part of a tactical simulation challenge
+- Special thanks to the open-source community
+
+---
+
+## 📧 Contact
+
+For questions or feedback, reach out at:
+
+- **Email:** md.2025ca056@mnnit.ac.in, krishna.2025ca052@mnnit.ac.in
+- **GitHub:** https://github.com/suhailansari6937
+
+---
+
+<div align="center">
+  <strong>⚔️ May the best Ranger win! ⚔️</strong>
+</div>
