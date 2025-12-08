@@ -2,7 +2,6 @@
 
 A futuristic, grid-based tactical combat simulator where Rangers command autonomous units in strategic, AI-driven battles. Built with React, Zustand, TailwindCSS, Node.js, Express, and MongoDB, SamuraX focuses on tactical depth, minimal UI, and persistent battle history.
 
-![SamuraX Banner](https://via.placeholder.com/1200x300/1a1a2e/eee?text=SamuraX+-+Tactical+Grid+Battle+Simulator)
 
 ---
 
