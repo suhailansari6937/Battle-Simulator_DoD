@@ -19,18 +19,24 @@ export default function Dashboard() {
     { id: "yellow", name: "Yellow Ranger" }
   ];
 
+  // Initialize stats for all rangers
   const stats = {};
   rangers.forEach(r => {
     stats[r.id] = { wins: 0, losses: 0, draws: 0, total: 0 };
   });
 
+  // Calculate stats based on backend results
   resultsHistory.forEach(result => {
-    const r = result.selectedRanger;
-    if (!stats[r]) return;
-    stats[r].total++;
-    if (result.winner === "player") stats[r].wins++;
-    else if (result.winner === "bot") stats[r].losses++;
-    else stats[r].draws++;
+    const ranger = result.selectedRanger;
+    if (!stats[ranger]) return;
+
+    stats[ranger].total++;
+
+    const win = result.winner?.toLowerCase();
+
+    if (win === "player") stats[ranger].wins++;
+    else if (win === "bot") stats[ranger].losses++;
+    else stats[ranger].draws++;
   });
 
   return (
@@ -38,11 +44,12 @@ export default function Dashboard() {
       className="min-h-screen w-full bg-cover bg-center bg-no-repeat pb-20"
       style={{
         backgroundImage: `
-           linear-gradient(180deg, rgba(10,10,10,0.9), rgba(5,5,5,0.95)),
-          url('public/rangers/bg.jpg')
+          linear-gradient(180deg, rgba(10,10,10,0.9), rgba(5,5,5,0.95)),
+          url('/rangers/bg.jpg')
         `
       }}
     >
+
       {/* ================= HERO BOX ================== */}
       <div className="flex justify-center pt-20">
         <div className="bg-black/60 border border-yellow-500/40 backdrop-blur-lg px-10 py-8 rounded-xl shadow-xl text-center max-w-xl">
@@ -105,37 +112,47 @@ export default function Dashboard() {
           <p className="text-gray-300 text-center">No battles recorded yet.</p>
         )}
 
-        {resultsHistory.map((result, idx) => (
-          <div
-            key={idx}
-            className="
-              flex items-center gap-6 bg-black/40 border border-white/10
-              p-4 rounded-xl backdrop-blur-md shadow-md
-              hover:-translate-y-1 hover:shadow-yellow-400/20 transition
-            "
-          >
+        {resultsHistory.map((result, idx) => {
+          const win = result.winner?.toLowerCase();
+
+          return (
             <div
-              className={`
-                px-3 py-1 rounded-lg font-bold text-sm
-                ${
-                  result.winner === "player"
-                    ? "bg-green-700/40 text-green-300"
-                    : "bg-red-700/40 text-red-300"
-                }
-              `}
+              key={idx}
+              className="
+                flex items-center gap-6 bg-black/40 border border-white/10
+                p-4 rounded-xl backdrop-blur-md shadow-md
+                hover:-translate-y-1 hover:shadow-yellow-400/20 transition
+              "
             >
-              {result.winner === "player" ? "Player Victory" : "Bot Victory"}
-            </div>
+              <div
+                className={`
+                  px-3 py-1 rounded-lg font-bold text-sm
+                  ${
+                    win === "player"
+                      ? "bg-green-700/40 text-green-300"
+                      : win === "bot"
+                      ? "bg-red-700/40 text-red-300"
+                      : "bg-yellow-700/40 text-yellow-300"
+                  }
+                `}
+              >
+                {win === "player"
+                  ? "Player Victory"
+                  : win === "bot"
+                  ? "Bot Victory"
+                  : "Draw"}
+              </div>
 
-            <div className="text-gray-300 text-sm">
-              {new Date(result.createdAt).toLocaleString()}
-            </div>
+              <div className="text-gray-300 text-sm">
+                {new Date(result.createdAt).toLocaleString()}
+              </div>
 
-            <div className="ml-auto text-blue-300 text-sm font-semibold">
-              Ranger: {result.selectedRanger}
+              <div className="ml-auto text-blue-300 text-sm font-semibold">
+                Ranger: {result.selectedRanger}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
