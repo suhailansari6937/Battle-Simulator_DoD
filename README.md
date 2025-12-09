@@ -221,7 +221,7 @@ Frontend starts at: **http://localhost:5173**
 
 ### 🟢 Setup Page
 
-![Setup Page](src/assets/.png)
+![Setup Page](src/assets/sSetup.png)
 
 ### 🔴 Battle Simulation
 
