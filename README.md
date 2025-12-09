@@ -170,8 +170,8 @@ Fetch all historical battle results.
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/<your-username>/SamuraX.git
-cd SamuraX
+git clone https://github.com/suhailansari6937/Battle-Simulator_DoD.git
+cd Battle-Simulator_DoD
 ```
 
 ### 2️⃣ Setup Backend
