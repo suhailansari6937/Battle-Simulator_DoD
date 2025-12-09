@@ -1,6 +1,9 @@
 import { create } from "zustand";
 
-const API_BASE = "http://localhost:4000"; // backend URL
+// ✅ Use VERCEL env variable in production, fallback to Render URL
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://battle-simulator-dod.onrender.com";// backend URL
 
 const unitDefs = {
   soldier: { hp: 100, atk: 20, range: 1, symbol: "S", color: "#22c55e" },
