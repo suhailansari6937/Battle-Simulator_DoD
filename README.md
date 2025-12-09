@@ -5,6 +5,13 @@ A futuristic, grid-based tactical combat simulator where Rangers command autonom
 
 ---
 
+
+## 🚀 Live Demo
+https://battle-simulator-do-d.vercel.app/
+
+
+
+----
 ## 📌 Problem Statement (PS7)
 
 **Problem Code:** PS7 – AI-Powered Tactical Grid Battle Simulator
